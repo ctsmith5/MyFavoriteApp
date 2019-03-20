@@ -17,7 +17,6 @@ struct User: Codable {
     enum CodingKeys: String, CodingKey {
         case name
         case favoriteApp = "faveApp"
-        
     }
     
     
