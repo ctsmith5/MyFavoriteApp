@@ -21,7 +21,7 @@ class UserController {
     
     //Base URL
     
-    let baseURL = URL(string: "https://favoriteapp-375c6.firebaseio.com")
+     let baseURL = URL(string: "https://favoriteapp-375c6.firebaseio.com")
     
     //MARK: - CRUD Function
     
@@ -73,6 +73,38 @@ class UserController {
     
     
     //Post Request (Create)
-    
+    func postUser(name: String, favoriteApp: String, completion: @escaping (Bool) -> Void) {
+            //URL
+        guard var url = baseURL else {return}
+        url.appendPathExtension("user")
+        url.appendingPathComponent("json")
+        print(url)
+        
+        //request
+        var request = URLRequest(url: url)
+        request.httpMethod = "POST"
+        let newUser = User(user: name, favoriteApp: favoriteApp )
+        
+        let encoder = JSONEncoder()
+        
+        do{
+           let data = try encoder.encode(newUser)
+        }catch{
+            print("There was an error encoding to JSON \(error.localizedDescription)")
+        }
+        
+        
+        
+        //DataTask & Resume
+        let dataTask = URLSession.shared.dataTask(with: request) { (_, _, error) in
+            if let error = error{
+                print("There was an error POSTint the data: \(error.localizedDescription)")
+                completion(false)
+            }
+            self.arrayOfUsers.append(newUser)
+            completion(true)
+        }
+        dataTask.resume()
+    }
     
 }

@@ -10,12 +10,12 @@ import Foundation
 
 struct User: Codable {
     
-    let username: String
+    let user: String
     let favoriteApp: String
     
     
     enum CodingKeys: String, CodingKey {
-        case name
+        case user = "name"
         case favoriteApp = "faveApp"
     }
     
